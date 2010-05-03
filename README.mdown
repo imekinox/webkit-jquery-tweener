@@ -1,0 +1,3 @@
+## Webkit jQuery Tweener
+
+Set of functions to animate elements with webkit using jQuery
