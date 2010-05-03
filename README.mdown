@@ -1,3 +1,56 @@
 ## Webkit jQuery Tweener
 
-Set of functions to animate elements with webkit using jQuery
+Set of functions to animate elements with webkit using jQuery.
+
+## Demo URL:
+
+http://www.imekinox.com/webkit_demo/demo/webkit-test.html
+
+## Examples:
+
+### AlphaTo
+$(".test").alphaTo(0,5);
+
+### SlideTo
+$(".test").slideTo(200,200,3);
+
+### BlurTo
+$(".test").blurTo(40,"#F00",1);
+
+### RotateX with Callback
+$(".test").rotateX(360,3, "linear", function(){
+  $(".test").rotateX(0,3, "linear");
+});
+
+### RotateY with Callback
+$(".test").rotateY(360,3, "linear", function(){
+  $(".test").rotateY(0,3, "linear");
+});
+
+### Custom doTween
+$(".test").doTween({
+  time: 3,
+  keyframes: {
+    "0%": {
+	top: "100px",
+	transform: {
+	  rotateY:"25deg",
+	  rotateX:"45deg"
+	}
+    },
+    "50%": {
+	top: "400px",
+	transform: {
+	  rotateY:"360deg",
+	  rotateX:"0deg"
+	}
+    },
+    "100%": {
+	top: "100px",
+	transform: {
+	  rotateY:"25deg",
+	  rotateX:"45deg"
+	}
+    }
+  }
+});
