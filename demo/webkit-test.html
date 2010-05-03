@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><title>WebKitTweener Test</title>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="../WebKitTweener.js"></script>
+    <script type="text/javascript" src="iscroll.js"></script>
+      <style>
+	  .test {
+	    position: absolute;
+	    top: 100px;
+	    left: 100px;
+	    border: 1px solid #F00;
+	    padding: 5px;
+	    width: 100px;
+	    height: 30px;
+	    background-color: #F0C0C0;
+	    -webkit-border-radius: 5px;
+	  }
+	  .menu {
+	    position: absolute;
+	    top: 10px;
+	    right: 10px;
+	  }
+	  .menu div {
+	    -webkit-border-radius: 5px;
+	    border: 2px solid #00F;
+	    padding: 10px;
+	    background-color: #C0C0F0;
+	    margin: 4px;
+	  }
+	  .menu div code {
+	    display: block;
+	  }
+	  #wrapper {
+	    position:relative;
+	    z-index:1;
+	    height:600px;        /* Desired element height */
+	  }
+	  #scroller {
+	    height: 1120px;
+	  }
+      </style>
+  </head>
+  <body>
+<div> Try this test on an iPad </div>
+      <div id="asd" class="test"> asd </div>
+<div id="wrapper">
+    <div id="scroller">
+      <div class="menu">
+	<div id="alpha_to">
+	    alphaTo 0 in 5 sec<br>
+	    <code>
+	    $(".test").alphaTo(0,5);
+	    </code>
+	</div>
+	<div id="alpha_to_back">
+		alphaTo 1 in 2 sec<br>
+		<code>
+		  $(".test").alphaTo(1,2);
+		</code>
+	</div>
+	<div id="slide_to"> slideTo 200,200 in 3 sec <br>
+	<code>
+	    $(".test").slideTo(200,200,3);
+	</code>
+	</div>
+	<div id="blur_to"> blurTo 40px, #F00 in 1 sec <br>
+	<code>
+	    $(".test").blurTo(40,"#F00",1);
+	</code>
+	</div>
+	<div id="rotate_x"> rotateX to 360deg in 3 sec <br> then rotate back to 0deg in 3 sec <br>
+	<code>
+	    $(".test").rotateX(360,3, "linear", function(){<br>
+	      $(".test").rotateX(0,3, "linear");<br>
+	    });
+	</code>
+	</div>
+	<div id="rotate_y"> rotateY to 360deg in 3 sec <br> then rotate back to 0deg in 3 sec <br>
+	<code>
+	    $(".test").rotateY(360,3, "linear", function(){<br>
+	      $(".test").rotateY(0,3, "linear");<br>
+	    });
+	</code></div>
+	<div id="custom"> custom doTween <br>
+	<code>
+	      $(".test").doTween({<br>
+		time: 3,<br>
+		keyframes: {<br>
+		  "0%": {<br>
+		      top: "100px",<br>
+		      transform: {<br>
+			rotateY:"25deg",<br>
+			rotateX:"45deg"<br>
+		      }<br>
+		  },<br>
+		  "50%": {<br>
+		      top: "400px",<br>
+		      transform: {<br>
+			rotateY:"360deg",<br>
+			rotateX:"0deg"<br>
+		      }<br>
+		  },<br>
+		  "100%": {<br>
+		      top: "100px",<br>
+		      transform: {<br>
+			rotateY:"25deg",<br>
+			rotateX:"45deg"<br>
+		      }<br>
+		  }<br>
+		}<br>
+	      });	
+	</code>
+	</div>
+    </div>
+  </div>
+</div>
+      <script type="text/javascript">
+	  $(document).ready(function(){
+	    new iScroll(document.getElementById('scroller'));
+	  });
+	  $("#rotate_x").click(function(){
+	    $(".test").rotateX(360,3, "linear", function(){
+	      $(".test").rotateX(0,3, "linear");
+	    });
+	  });
+	  $("#rotate_y").click(function(){
+	    $(".test").rotateY(360,3, "linear", function(){
+	      $(".test").rotateY(0,3, "linear");
+	    });
+	  });
+	  $("#alpha_to").click(function(){
+	    $(".test").alphaTo(0,5);
+	  });
+	  $("#alpha_to_back").click(function(){
+	    $(".test").alphaTo(1,2);
+	  });
+	  $("#slide_to").click(function(){
+	    $(".test").slideTo(200,200,3);
+	  });
+	  $("#blur_to").click(function(){
+	    $(".test").blurTo(40,"#F00",1);
+	  });
+	  $("#custom").click(function(){
+	      $(".test").doTween({
+		time: 3,
+		keyframes: {
+		  "0%": {
+		      top: "100px",
+		      transform: {
+			rotateY:"25deg",
+			rotateX:"45deg"
+		      }
+		  },
+		  "50%": {
+		      top: "400px",
+		      transform: {
+			rotateY:"360deg",
+			rotateX:"0deg"
+		      }
+		  },
+		  "100%": {
+		      top: "100px",
+		      transform: {
+			rotateY:"25deg",
+			rotateX:"45deg"
+		      }
+		  }
+		}
+	      });
+	  });
+      </script>
+  </body>
+</html>
