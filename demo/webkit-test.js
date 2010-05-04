@@ -1,5 +1,17 @@
 $(document).ready(function(){
   new iScroll(document.getElementById('scroller'));
+  $("#alpha_to").click(function(){
+    $(".test").alphaTo(0,5);
+  });
+  $("#alpha_to_back").click(function(){
+    $(".test").alphaTo(1,2);
+  });
+  $("#slide_to").click(function(){
+    $(".test").slideTo(200,200,3);
+  });
+  $("#glow_to").click(function(){
+    $(".test").glowTo(40,"#000",1);
+  });
   $("#rotate").click(function(){
     $(".test").rotate(360,1.5, "ease-out", function(){
       $(".test").rotate(0,1.5, "ease-in");
@@ -15,17 +27,23 @@ $(document).ready(function(){
       $(".test").rotateY(0,3, "linear");
     });
   });
-  $("#alpha_to").click(function(){
-    $(".test").alphaTo(0,5);
+  $("#scale").click(function(){
+    $(".test").scale(1.8,2, "ease-out");
   });
-  $("#alpha_to_back").click(function(){
-    $(".test").alphaTo(1,2);
+  $("#scale_x").click(function(){
+    $(".test").scaleX(.5,2, "ease-out");
   });
-  $("#slide_to").click(function(){
-    $(".test").slideTo(200,200,3);
+  $("#scale_y").click(function(){
+    $(".test").scaleY(.5,2, "ease-out");
   });
-  $("#glow_to").click(function(){
-    $(".test").glowTo(40,"#000",1);
+  $("#skew").click(function(){
+    $(".test").skew(45,2);
+  });
+  $("#skew_x").click(function(){
+    $(".test").skewX(20,2);
+  });
+  $("#skew_y").click(function(){
+    $(".test").skewY(20,2);
   });
   $("#custom").click(function(){
       $(".test").doTween({

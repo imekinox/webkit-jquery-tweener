@@ -76,6 +76,7 @@ jQuery.fn.doTween = function(settings){
     };
     theCss += "}";
     theCss += "</style>";
+ //   alert(theCss);
     // Callback execution and removing inserted style
     $(this).bind("webkitAnimationEnd", function(){
       $(this).unbind("webkitAnimationEnd");
@@ -141,61 +142,57 @@ jQuery.fn.glowTo = function(size, color, time, transition, callback){
   });
 }
 
+jQuery.fn.doTransform = function(transform, default_o, time, transition, callback) {
+  $(this).doTween({
+    time: time,
+    transition: transition,
+    callback: callback,
+    keyframes: {
+      from: {
+	"-webkit-transform" : $(this).lastTransformOr(default_o)
+      },
+      to: {
+	transform: transform
+      }
+    }
+  });  
+}
+
 // Rotate function
 jQuery.fn.rotate = function(deg, time, transition, callback){
-  $(this).doTween({
-    time: time,
-    transition: transition,
-    callback: callback,
-    keyframes: {
-      from: {
-	"-webkit-transform" : $(this).lastTransformOr({rotate:"0deg"})
-      },
-      to: {
-	transform:{
-	   "rotate" : deg + "deg"
-	}
-      }
-    }
-  });
+  $(this).doTransform({rotate: deg + "deg"}, {rotate:"0deg"}, time, transition, callback);
 }
-
 // RotateX function
 jQuery.fn.rotateX = function(deg, time, transition, callback){
-  $(this).doTween({
-    time: time,
-    transition: transition,
-    callback: callback,
-    keyframes: {
-      from: {
-	"-webkit-transform" : $(this).lastTransformOr({rotateX:"0deg"})
-      },
-      to: {
-	transform:{
-	   "rotateX" : deg + "deg"
-	}
-      }
-    }
-  });
+  $(this).doTransform({rotateX: deg + "deg"}, {rotateX:"0deg"}, time, transition, callback);
 }
-
 // RotateY function
 jQuery.fn.rotateY = function(deg, time, transition, callback){
-  $(this).doTween({
-    time: time,
-    transition: transition,
-    callback: callback,
-    keyframes: {
-      from: {
-	"-webkit-transform" : $(this).lastTransformOr({rotateY:"0deg"})
-      },
-      to: {
-	transform:{
-	   "rotateY" : deg + "deg"
-	}
-      }
-    }
-  });
+  $(this).doTransform({rotateY: deg + "deg"}, {rotateY:"0deg"}, time, transition, callback);
+}
+// Scale function
+jQuery.fn.scale = function(scale, time, transition, callback){
+  $(this).doTransform({scale: scale}, {scale:1}, time, transition, callback);
+}
+// ScaleX function
+jQuery.fn.scaleX = function(scale, time, transition, callback){
+  $(this).doTransform({scaleX: scale}, {scaleX:1}, time, transition, callback);
+}
+// ScaleY function
+jQuery.fn.scaleY = function(scale, time, transition, callback){
+  $(this).doTransform({scaleY: scale}, {scaleY:1}, time, transition, callback);
+}
+// Skew function
+jQuery.fn.skew = function(deg, time, transition, callback){
+  $(this).doTransform({skew: deg + "deg"}, {skew:"0deg"}, time, transition, callback);
+}
+// SkewX function
+jQuery.fn.skewX = function(deg, time, transition, callback){
+  $(this).doTransform({skewX: deg + "deg"}, {skewY:"0deg"}, time, transition, callback);
+}
+// SkewY function
+jQuery.fn.skewY = function(deg, time, transition, callback){
+  $(this).doTransform({skewX: deg + "deg"}, {skewY:"0deg"}, time, transition, callback);
 }
 
 // lastTransformOr sets the default from value for the transform(s) that will be used in case
@@ -217,6 +214,5 @@ jQuery.fn.lastTransformOr = function(arr_b){
   } else {
     new_transform =  "none";
   }
-  alert(new_transform);
   return new_transform;
 }
