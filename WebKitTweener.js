@@ -124,8 +124,8 @@ jQuery.fn.slideTo = function(_x, _y, time, transition, callback){
   });
 }
 
-//BlurTo function
-jQuery.fn.blurTo = function(size, color, time, transition, callback){
+//GlowTo function
+jQuery.fn.glowTo = function(size, color, time, transition, callback){
   $(this).doTween({
     time: time,
     transition: transition,
