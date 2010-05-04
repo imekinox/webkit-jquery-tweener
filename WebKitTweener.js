@@ -34,7 +34,7 @@ jQuery.fn.doTween = function(settings){
     theCss += "#" + this.id + " {";
     theCss += "-webkit-animation-name: \"tweener_" + unique_id + "\";";
     theCss += "-webkit-animation-duration: " + settings.time + "s;";
-    theCss += "-webkit-transition-timing-function: " + settings.transition + ";";
+    theCss += "-webkit-transition-timing-function: '" + settings.transition + "';";
     theCss += "}";
     // Generate Webkit keyframes
     theCss += "@-webkit-keyframes 'tweener_" + unique_id + "' {";
@@ -141,6 +141,25 @@ jQuery.fn.glowTo = function(size, color, time, transition, callback){
   });
 }
 
+// Rotate function
+jQuery.fn.rotate = function(deg, time, transition, callback){
+  $(this).doTween({
+    time: time,
+    transition: transition,
+    callback: callback,
+    keyframes: {
+      from: {
+	"-webkit-transform" : $(this).lastTransformOr({rotate:"0deg"})
+      },
+      to: {
+	transform:{
+	   "rotate" : deg + "deg"
+	}
+      }
+    }
+  });
+}
+
 // RotateX function
 jQuery.fn.rotateX = function(deg, time, transition, callback){
   $(this).doTween({
@@ -160,6 +179,7 @@ jQuery.fn.rotateX = function(deg, time, transition, callback){
   });
 }
 
+// RotateY function
 jQuery.fn.rotateY = function(deg, time, transition, callback){
   $(this).doTween({
     time: time,
@@ -192,9 +212,11 @@ jQuery.fn.lastTransformOr = function(arr_b){
       }
       if(!match) arr_a.push(j + "(" + arr_b[j] + ")");
     }
+    arr_a.sort();
     for( var i in arr_a) new_transform += arr_a[i] + " ";
   } else {
     new_transform =  "none";
   }
+  alert(new_transform);
   return new_transform;
 }
