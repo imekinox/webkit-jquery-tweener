@@ -9,7 +9,7 @@ http://www.imekinox.com/webkit_demo/demo/webkit-test.html
 ## Examples:
 
 ### AlphaTo
- $(".test").alphaTo(0,5);
+   $(".test").alphaTo(0,5);
 
 ### SlideTo
  $(".test").slideTo(200,200,3);
