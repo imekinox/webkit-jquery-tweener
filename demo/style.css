@@ -15,14 +15,11 @@ body{
   top: 100px;
   left: 100px;
   border: 1px solid black;
-  padding: 50px;
-  -webkit-border-radius: 5px;
+  width: 100px;
+  height: 100px;
   color: #FFF;
-  background-image: -webkit-gradient(radial,
-		  50% 51, 1,
-		  50% 70, 55,
-		  from(rgba(255, 255, 255, 0.3)),
-		  to(rgba(255, 255, 255, 0)));
+  text-align: center;
+  background-image: -webkit-gradient(radial, 50% 50%, 1, 50% 85, 76, from(rgba(255, 255, 255, 0.289062)), to(rgba(255, 255, 255, 0)));
   background-repeat: no-repeat;
 }
 .menu {
