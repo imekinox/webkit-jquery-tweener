@@ -15,29 +15,25 @@
  * @license http://www.gnu.org/licenses/gpl.html
  * @project jquery.doTween
  */
+
 // Main Tweening function
 jQuery.fn.doTween = function(settings){
     settings = jQuery.extend({
         time: 1,
         transition: "linear",
-        callback: function(){
+        callback: function(_this){
         },
         keyframes: {}
     }, settings);
-    
+    $(this).attr("is_tweening", true);
     this.each(function(){
-    
         // Remove any webkit_style that wasn't deleted by callback
         
-        $(".webkit_style").remove();
-        var unique_id = Math.round(Math.random(0, 1000) * 10000);
+        //$(".webkit_style").remove();
+        var unique_id = new Date().getTime();
+        
         // Generate unique style for this tween 
         var theCss = "<style id='style_" + unique_id + "' class='webkit_style'>";
-        theCss += "#" + this.id + " {";
-        theCss += "-webkit-animation-name: \"tweener_" + unique_id + "\";";
-        theCss += "-webkit-animation-duration: " + settings.time + "s;";
-        theCss += "-webkit-transition-timing-function: '" + settings.transition + "';";
-        theCss += "}";
         // Generate Webkit keyframes
         theCss += "@-webkit-keyframes 'tweener_" + unique_id + "' {";
         for (var key in settings.keyframes) {
@@ -85,25 +81,49 @@ jQuery.fn.doTween = function(settings){
         };
         theCss += "}";
         theCss += "</style>";
-        //   alert(theCss);
         // Callback execution and removing inserted style
-        $(this).bind("webkitAnimationEnd", function(){
-            $(this).unbind("webkitAnimationEnd");
-            settings.callback();
+        jQuery(this).bind("webkitAnimationEnd", function(event){
             $("#style_" + unique_id).remove();
+            $(this).attr("is_tweening", false);
+            settings.callback(this);
+            this.style.removeProperty("-webkit-animation-name");
+            this.style.removeProperty("-webkit-animation-duration");
+            this.style.removeProperty("-webkit-transition-timing-function");
+            event.stopPropagation();
+            $(this).unbind("webkitAnimationEnd");
         });
+        
         // Append style to the head tag
         $("head").append(theCss);
+        $(this).css({
+            "-webkit-animation-name": "tweener_" + unique_id,
+            "-webkit-animation-duration": settings.time + "s",
+            "-webkit-transition-timing-function": "'" + settings.transition + "'"
+        });
     });
-}
+    return jQuery(this);
+};
 
+jQuery.fn.isTweening = function(){
+    return (jQuery(this).attr("is_tweening") == "true");
+};
+
+jQuery.fn.removeAllTweens = function(){
+	$(".webkit_style").remove();
+};
 
 // AlphaTo function
 jQuery.fn.alphaTo = function(alpha, time, transition, callback){
+	//setting proper display when changing alpha (on callback)
+	var new_callback = function(_this){
+		if(callback !== undefined) callback();
+		$(_this).css("display", (alpha == 0)?"none":"block");
+	};
+	if(alpha > 0) $(this).css("display", "block");
     $(this).doTween({
         time: time,
         transition: transition,
-        callback: callback,
+        callback: new_callback,
         keyframes: {
             from: {
                 "-webkit-transform-style": "preserve-3d",
@@ -115,16 +135,20 @@ jQuery.fn.alphaTo = function(alpha, time, transition, callback){
             }
         }
     });
-}
+    return jQuery(this);
+};
 
 // SlideTo function
 jQuery.fn.slideTo = function(_x, _y, time, transition, callback){
     $(this).doTransform({
-        translateX: _x + "px"
-    }, {
+        translateX: _x + "px",
         translateY: _y + "px"
+    }, {
+        translateX: "0px",
+        translateY: "0px"
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
 
 //GlowTo function
 jQuery.fn.glowTo = function(size, color, time, transition, callback){
@@ -141,7 +165,8 @@ jQuery.fn.glowTo = function(size, color, time, transition, callback){
             }
         }
     });
-}
+    return jQuery(this);
+};
 
 jQuery.fn.doTransform = function(transform, default_o, time, transition, callback){
     $(this).doTween({
@@ -157,7 +182,8 @@ jQuery.fn.doTransform = function(transform, default_o, time, transition, callbac
             }
         }
     });
-}
+    return jQuery(this);
+};
 
 // Rotate function
 jQuery.fn.rotate = function(deg, time, transition, callback){
@@ -166,7 +192,9 @@ jQuery.fn.rotate = function(deg, time, transition, callback){
     }, {
         rotate: "0deg"
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // RotateX function
 jQuery.fn.rotateX = function(deg, time, transition, callback){
     $(this).doTransform({
@@ -174,7 +202,9 @@ jQuery.fn.rotateX = function(deg, time, transition, callback){
     }, {
         rotateX: "0deg"
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // RotateY function
 jQuery.fn.rotateY = function(deg, time, transition, callback){
     $(this).doTransform({
@@ -182,7 +212,9 @@ jQuery.fn.rotateY = function(deg, time, transition, callback){
     }, {
         rotateY: "0deg"
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // Scale function
 jQuery.fn.scale = function(scale, time, transition, callback){
     $(this).doTransform({
@@ -190,7 +222,9 @@ jQuery.fn.scale = function(scale, time, transition, callback){
     }, {
         scale: 1
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // ScaleX function
 jQuery.fn.scaleX = function(scale, time, transition, callback){
     $(this).doTransform({
@@ -198,7 +232,9 @@ jQuery.fn.scaleX = function(scale, time, transition, callback){
     }, {
         scaleX: 1
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // ScaleY function
 jQuery.fn.scaleY = function(scale, time, transition, callback){
     $(this).doTransform({
@@ -206,7 +242,9 @@ jQuery.fn.scaleY = function(scale, time, transition, callback){
     }, {
         scaleY: 1
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // Skew function
 jQuery.fn.skew = function(deg, time, transition, callback){
     $(this).doTransform({
@@ -214,7 +252,9 @@ jQuery.fn.skew = function(deg, time, transition, callback){
     }, {
         skew: "0deg"
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // SkewX function
 jQuery.fn.skewX = function(deg, time, transition, callback){
     $(this).doTransform({
@@ -222,7 +262,9 @@ jQuery.fn.skewX = function(deg, time, transition, callback){
     }, {
         skewY: "0deg"
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
+
 // SkewY function
 jQuery.fn.skewY = function(deg, time, transition, callback){
     $(this).doTransform({
@@ -230,7 +272,8 @@ jQuery.fn.skewY = function(deg, time, transition, callback){
     }, {
         skewY: "0deg"
     }, time, transition, callback);
-}
+    return jQuery(this);
+};
 
 // lastTransformOr sets the default from value for the transform(s) that will be used in case
 // previous transformation does not has a default value for those transforms and orders them
@@ -256,4 +299,43 @@ jQuery.fn.lastTransformOr = function(arr_b){
         new_transform = "none";
     }
     return new_transform;
-}
+};
+
+// AlphaTo function
+jQuery.fn.growX = function(_width, time, transition, callback){
+    $(this).doTween({
+        time: time,
+        transition: transition,
+        callback: callback,
+        keyframes: {
+            from: {
+                "-webkit-transform-style": "preserve-3d",
+                width: $(this).css("width")
+            },
+            to: {
+                "-webkit-transform-style": "preserve-3d",
+                width: _width
+            }
+        }
+    });
+    return jQuery(this);
+};
+
+jQuery.fn.growY = function(_height, time, transition, callback){
+    $(this).doTween({
+        time: time,
+        transition: transition,
+        callback: callback,
+        keyframes: {
+            from: {
+                "-webkit-transform-style": "preserve-3d",
+                height: $(this).css("height")
+            },
+            to: {
+                "-webkit-transform-style": "preserve-3d",
+                height: _height
+            }
+        }
+    });
+    return jQuery(this);
+};
